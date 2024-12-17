@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Cards</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .product-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .product-card h2 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .product-card p {
+            font-size: 16px;
+            color: #333;
+            margin: 5px 0;
+        }
+        .product-card a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .product-card a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Product Cards</h1>
+        <div id="product-list"></div>
+    </div>
+
+    <script>
+        // Функция для загрузки данных из JSON-файла
+        async function loadProducts() {
+            try {
+                const response = await fetch('products.json');
+                const products = await response.json();
+                displayProducts(products);
+            } catch (error) {
+                console.error('Ошибка при загрузке данных:', error);
+            }
+        }
+
+        // Функция для отображения данных на странице
+        function displayProducts(products) {
+            const productList = document.getElementById('product-list');
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+
+                const image = document.createElement('img');
+                image.src = product.image;
+                image.alt = product.title;
+
+                const title = document.createElement('h2');
+                title.textContent = product.title;
+
+                const price = document.createElement('p');
+                price.textContent = `Price: ${product.price}`;
+
+                const link = document.createElement('a');
+                link.href = product.link;
+                link.textContent = 'View Product';
+                link.target = '_blank'; // Открывает ссылку в новой вкладке
+
+                card.appendChild(image);
+                card.appendChild(title);
+                card.appendChild(price);
+                card.appendChild(link);
+
+                productList.appendChild(card);
+            });
+        }
+
+        // Загружаем данные при загрузке страницы
+        loadProducts();
+    </script>
+</body>
+</html>
